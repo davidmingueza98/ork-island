@@ -112,10 +112,9 @@ Unless there is a force majeure event, these are the values of parameters that
 will be used in the game.
 
 ## Programming
-The first thing you should do is to download the source code. This source code
-includes a C++ program that runs the matches and also an HTML viewer to
+This source code includes a C++ program that runs the matches and also an HTML viewer to
 watch them in a nice animated format. Also, a “Null” player and a “Demo”
-player are provided to make it easier to start coding your own player.
+player are provided to make it easier to start coding your own player. The player that I developed is called [AIWillyrex.cc](./AIWillyrex.cc)
 
 ## Running your first match
 Here we will explain how to run the game under Linux, but a similar procedure
@@ -193,8 +192,3 @@ chine, so we cannot provide a single, generic file. If you miss an object file f
 your architecture, contact us and we will try to supply it.
 You can also ask your friends for the object files of their players and add them
 to the Makefile by setting the variable EXTRA OBJ.
-
-
-
-Game created by Enric Rodrı́guez
-December 19, 2017
