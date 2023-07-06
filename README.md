@@ -1,28 +1,43 @@
 # ork-island
-Algorithm in C++ that implements a strategy in a game
 
 ## Game rules
-
 The power of Sauron, the Lord of the Rings, is spreading throughout Middle
 Earth. People flee in terror from his bloodthirsty ork soldiers. As a result, once
 prosperous cities are now abandoned, and vast areas of land have become as
 lifeless as a desert. Sauron’s troops would quickly conquer all Middle Earth...
 were it not for their own greed and ambition.
+
 In this game, four players compete to conquer an island of Middle Earth for
 Sauron. The winner of a match is the one that gets the highest score at the end.
 The map of the island is represented with a (randomly generated) square board.
-The cells on this board can be of different types: WATER, GRASS, FOREST, SAND,
-CITY or PATH. Being an island, the board is surrounded with WATER. Moreover,
-cells of type CITY are grouped into rectangles representing cities, hence the
-name. Similarly, cells of type PATH are grouped into sequences that form paths.
-Paths connect different cities and never cross each other.
+
+The cells on this board can be of different types:
+- WATER
+- GRASS
+- FOREST
+- SAND
+- CITY
+- PATH
+
+Being an island, the board is surrounded with WATER. Moreover, cells of type CITY
+are grouped into rectangles representing cities, hence the name. Similarly, cells
+of type PATH are grouped into sequences that form paths.
+
+**Paths connect different cities and never cross each other.**
+
 In order to conquer the island, each player runs an army of ork soldiers. At
 each round of the match, players command their orks. Any player that tries
-to give more than 1000 instructions in the same round will be aborted. An ork
-can be instructed to remain still or move one cell towards the north, south, east
-or west direction. If an ork receives more than one instruction, all but the first
-one are ignored. Orks cannot move to cells with WATER (since otherwise they
-would lose the layer of dirt on their skin). On the other hand, they can move
+to give more than 1000 instructions in the same round will be aborted.
+
+An ork can be instructed to remain still or move one cell towards:
+ - North
+ - South
+ - East
+ - West
+
+If an ork receives more than one instruction, all but the first one are ignored.
+**Orks cannot move to cells with WATER** (since otherwise they would lose the layer
+of dirt on their skin). On the other hand, they can move
 to all other cells. However, when an ork moves, its health (an integer value)
 decreases. Depending on the type of cell where an ork goes, this decrement
 in health may be different. When an ork reaches a negative health, it dies and
@@ -31,15 +46,14 @@ same health, and when they regenerate they get this same amount of health
 again.
 
 Each cell of the board can be occupied by a single ork at most. In the particular
-situation that an ork A attempts to move to a cell where there is already an-
-1other ork B (who has moved there previously in the same round, or was there
-earlier), the following cases are considered:
+situation that an ork A attempts to move to a cell where there is already another ork B
+(who has moved there previously in the same round, or was there earlier), the following cases are considered:
 - If A and B belong to the same player, the instruction is ignored.
 - Otherwise there is a fight, after which one of the two orks will die. If the
 health of A (after the decrement due to the movement) is strictly greater
 than the health of B, then B dies. Symmetrically, if it is strictly less than
-the health of B, then A dies. If there is a tie, then the ork that dies is de-
-cided randomly with uniform probability, that is, 50%. The ork that dies
+the health of B, then A dies. If there is a tie, then the ork that dies is decided
+randomly with uniform probability, that is, 50%. The ork that dies
 regenerates under the control of the other player with the initial amount
 of health. The winner of the fight keeps the same amount of health.
 When an ork dies, it regenerates at the next round on a random position on the
@@ -49,39 +63,49 @@ the shore.
 
 At the beginning of a match all cities and paths are empty, i.e., do not have
 any orks on their cells. However, once the game starts, orks can move to them.
+
 Points are then computed as follows. At the end of a round, for each city the
 number of orks of each player on its cells is counted. If there is a player who
 has strictly more orks on the city than any other player, then this player conquers
 the city; in case of a tie, the conqueror of the city (if any) does not change from
-the previous round. In any case, for each city currently conquered by a player
-(i.e., currently under their control), this player accumulates a number of points
-which is bonus per city cell () × the size of the city (that is, the number of its
-cells); for paths the same applies as for cities, but the number of accumulated
-points is bonus per path cell () × the size of the path. Finally, for each player,
-their graph of conquests is considered. In this graph, the vertices are the con-
-quered cities, and the edges are the conquered paths that connect conquered
-cities. For each connected component of the graph with i vertices, additional
-factor connected component () × 2 i points are obtained.
+the previous round.
+
+In any case, for each city currently conquered by a player (i.e., currently under their control),
+this player accumulates a number of points which is bonus per city *cell () × the size of the city*
+(that is, the number of its cells); for paths the same applies as for cities, but the number of accumulated
+points is bonus per path *cell () × the size of the path*.
+
+Finally, for each player, their graph of conquests is considered. In this graph, the vertices are the conquered cities,
+and the edges are the conquered paths that connect conquered cities. For each connected component of the graph with i vertices,
+*additional factor connected component () × 2 i* points are obtained.
+
 Let us illustrate with an example how the score is computed. Figure 1 shows
 a screenshot of the game. Blue represents WATER, light green represents GRASS,
 deep green represents FOREST, light yellow represents SAND, deep grey repre-
 sents CITY and light grey represents PATH. The orks of a player are identified
 with small squares of the same color. Conquered cities and paths are filled with
 a crossed grid of the color of the player that conquered them.
+
 Let us now count the score of the red player accumulated in the current round:
+
 - **Cities**: The red player has conquered cities (from top to bottom) with
-dimensions 5 × 2, 6 × 5, 2 × 4, 4 × 2, 3 × 2, 2 × 5, 5 × 5 and 5 × 2. In
-total, ( 5 × 2 + 6 × 5 + 2 × 4 + 4 × 2 + 3 × 2 + 2 × 5 + 5 × 5 + 5 × 2 ) ×
-bonus per city cell() = 107 points if bonus per city cell() = 1.
+dimensions *5 × 2, 6 × 5, 2 × 4, 4 × 2, 3 × 2, 2 × 5, 5 × 5* and *5 × 2*. In
+total: 107 points if bonus per city cell() = 1.
+
 - **Paths**: The red player has conquered paths (from top to bottom) with
-sizes 11, 3, 38 and 18. In total, ( 11 + 3 + 38 + 18 ) × bonus per path cell () =
-2Figure 1: Screenshot of the game.
+sizes 11, 3, 38 and 18. In total, *( 11 + 3 + 38 + 18 ) × bonus per path cell ()* = 2.
+
 370 points if bonus per path cell () = 1.
+
+Figure 1: Screenshot of the game.
+
 - **Graph of conquests**: The graph of the red player has five connected
-components: one with 3 cities, another one with 2 cities, and three com-
-ponents consisting of an isolated vertex. In total, ( 2 3 + 2 2 + 3 × 2 1 ) ×
-factor connected component () = 36 points if bonus per city cell () = 2.
-Thus, in total the red player has accumulated 213 points in this round.
+components: one with 3 cities, another one with 2 cities, and three components
+consisting of an isolated vertex. In total, *( 2 3 + 2 2 + 3 × 2 1 ) × factor connected component ()* = 36 points
+if bonus per city cell () = 2.
+
+Thus, in total the red player has accumulated **213 points** in this round.
+
 In general, the execution of a round follows the next steps:
 1. All instructions of all players are registered according to the above rules.
 2. The instructions are selected randomly and executed (if valid).
@@ -90,58 +114,52 @@ In general, the execution of a round follows the next steps:
 and added to the score.
 
 ### Game parameters
-A game is defined by a board and the following set of parameters, whose de-
-fault values are shown in parentheses:
+A game is defined by a board and the following set of parameters, whose default values are shown in parentheses:
 
-- nb players(): number of players (4)
-- rows(): number of rows of the board (70)
-- columns(): number of columns of the board (70)
-- nb rounds(): number of rounds of the match (200)
-- initial health(): initial health of each ork (100)
-- nb orks(): number of orks each player controls initially (15)
-- cost grass(): cost in health of moving to a cell of type GRASS (1)
-- cost forest(): cost in health of moving to a cell of type FOREST (2)
-- cost sand(): cost in health of moving to a cell of type SAND (3)
-- cost city(): cost in health of moving to a cell of type CITY (0)
-- cost path(): cost in health of moving to a cell of type PATH (0)
-- bonus per city cell(): bonus in points for each cell in a conquered city (1)
-- bonus per path cell(): bonus in points for each cell in a conquered path (1)
-- factor connected component(): factor multiplying the size of connected components (2)
-
-Unless there is a force majeure event, these are the values of parameters that
-will be used in the game.
+- *nb players()*: number of players (4)
+- *rows()*: number of rows of the board (70)
+- *columns()*: number of columns of the board (70)
+- *nb rounds()*: number of rounds of the match (200)
+- *initial health()*: initial health of each ork (100)
+- *nb orks()*: number of orks each player controls initially (15)
+- *cost grass()*: cost in health of moving to a cell of type GRASS (1)
+- *cost forest()*: cost in health of moving to a cell of type FOREST (2)
+- *cost sand()*: cost in health of moving to a cell of type SAND (3)
+- *cost city()*: cost in health of moving to a cell of type CITY (0)
+- *cost path()*: cost in health of moving to a cell of type PATH (0)
+- *bonus per city cell()*: bonus in points for each cell in a conquered city (1)
+- *bonus per path cell()*: bonus in points for each cell in a conquered path (1)
+- *factor connected component()*: factor multiplying the size of connected components (2)
 
 ## Programming
 This source code includes a C++ program that runs the matches and also an HTML viewer to
-watch them in a nice animated format. Also, a “Null” player and a “Demo”
-player are provided to make it easier to start coding your own player. The player that I developed is called [AIWillyrex.cc](./AIWillyrex.cc)
+watch them in a nice animated format. Also, a *Null* player and a *Demo* player are
+provided to make it easier to start coding your own player.
+
+My custom player is in [AIWillyrex.cc](./AIWillyrex.cc)
 
 ## Running your first match
 Here we will explain how to run the game under Linux, but a similar procedure
-should work as well under Windows, Mac, FreeBSD, OpenSolaris, . . . The only
-requirements on your system are g++, make and a modern browser like Mozilla
-Firefox or Google Chrome.
-To run your first match, follow the next steps:
-1. Open a console and cd to the directory where you extracted the source
-code.
-2. Run
-```
-make all
-```
-to build the game and all the players. Note that Makefile identifies any
-file matching AI*.cc as a player.
-3. This creates an executable file called Game. This executable allows you to
-run a match using a command like:
+should work in alternative OS. The only requirements are `g++`, `make` and a browser like Mozilla
+Firefox or Google Chrome. To run your first match, follow the next steps:
+
+1. Open a console and cd to the directory where you extracted the source code.
+2. Run `make all` to build the game and all the players. Note that Makefile identifies any file matching `AI*.cc` as a player.
+3. The executable `Game` allows you to run a match using a command like:
+
 ```
 ./Game Demo Demo Demo Demo -s 30 -i default.cnf -o default.out
 ```
-In this case, this runs a match with random seed 30 where four instances
-of the player “Demo” play with the parameters defined in default.cnf
-(the default parameters). The output of this match is redirected to the file
-default.out.
-4. To watch a match, open the viewer file viewer.html with your browser
-and load the file default.out. Or alternatively use the script viewer.sh,
-e.g. viewer.sh default.out.
+
+In this case, this runs a match with random seed 30 where four instances of the player *Demo* play
+with the parameters defined in `default.cnf` (the default parameters).
+
+The output of this match is redirected to the file `default.out`.
+
+4. To watch a match, open the viewer file `viewer.html` with your browser
+and load the file `default.out`. Or alternatively use the script `viewer.sh`,
+e.g. `./viewer.sh default.out`.
+
 Use
 ```
 ./Game --help
@@ -158,37 +176,38 @@ make clean
 to delete the executable and object files and start over the build.
 
 ### Adding your player
-To create a new player with, say, name Sauron, copy AINull.cc (an empty
-player that is provided as a template) to a new file AISauron.cc. Then, edit the
+To create a new player with, say, name Sauron, copy `AINull.cc` (an empty
+player that is provided as a template) to a new file `AISauron.cc`. Then, edit the
 new file and change the
-#define PLAYER NAME Null
+`#define PLAYER NAME Null`
 line to
-#define PLAYER NAME Sauron
-It will be used to define a new class PLAYER NAME, which will be referred to below as your player class.
-Now you can start implementing the method play () . This method will be called
+`#define PLAYER NAME Sauron`
+
+It will be used to define a new class `PLAYER NAME`, which will be referred to below as your player class.
+Now you can start implementing the method `play ()`. This method will be called
 every round and is where your player should decide what to do, and do it.
 Of course, you can define auxiliary methods and variables inside your player
-class, but the entry point of your code will always be this play () method.
+class, but the entry point of your code will always be this `play ()` method.
+
 From your player class you can also call functions to access the board state, as
-defined in the State class in State.hh, and to command your units, as defined
-in the Action class in Action.hh. These functions are made available to your
-code using multiple inheritance. The documentation on the available functions
-can be found in the aforementioned header files. You can also examine the code
-of the “Demo” player in AIDemo.cc as an example of how to use these func-
-tions. Finally, it may be worth as well to have a look at the files Structs.hh for
-useful data structures, Random.hh for random generation utilities, Settings.hh
-for looking up the game settings and Player.hh for the me() method.
-Note that you should not modify the factory () method from your player class,
+defined in the `State` class in `State.hh`, and to command your units, as defined
+in the `Action` class in `Action.hh`. These functions are made available to your
+code using multiple inheritance.
+
+The documentation on the available functions can be found in the aforementioned header files.
+You can also examine the code of the *Demo* player in `AIDemo.cc` as an example of how to use these functions.
+
+Finally, it may be worth as well to have a look at the files `Structs.hh` for
+useful data structures, `Random.hh` for random generation utilities, `Settings.hh`
+for looking up the game settings and `Player.hh` for the `me()` method.
+
+Note that you should not modify the `factory ()` method from your player class,
 nor the last line that adds your player to the list of registered players.
 
-### Playing against the “Dummy” player
-To test your strategy against the “Dummy” player, we provide the AIDummy.o
-object file. This way you still will not have the source code of our “Dummy”,
+### Playing against the *Dummy* player
+To test your strategy against the *Dummy* player, we provide the `AIDummy.o`
+object file. This way you still will not have the source code of our *Dummy*,
 but you will be able to add it as a player and compete against it locally.
-To add the “Dummy” player to the list of registered players, you will have to
-edit the Makefile file and set the variable DUMMY OBJ to the appropriate value.
-6Remember that object files contain binary instructions targeting a specific ma-
-chine, so we cannot provide a single, generic file. If you miss an object file for
-your architecture, contact us and we will try to supply it.
-You can also ask your friends for the object files of their players and add them
-to the Makefile by setting the variable EXTRA OBJ.
+
+To add the *Dummy* player to the list of registered players, you will have to
+edit the Makefile file and set the variable `DUMMY OBJ` to the appropriate value.
