@@ -71,18 +71,25 @@ the city; in case of a tie, the conqueror of the city (if any) does not change f
 the previous round.
 
 In any case, for each city currently conquered by a player (i.e., currently under their control),
-this player accumulates a number of points which is bonus per city *cell () × the size of the city*
+this player accumulates a number of points which is bonus per city *cell() × the size of the city*
 (that is, the number of its cells); for paths the same applies as for cities, but the number of accumulated
-points is bonus per path *cell () × the size of the path*.
+points is bonus per path *cell() × the size of the path*.
 
-Finally, for each player, their graph of conquests is considered. In this graph, the vertices are the conquered cities,
+Finally, for each player, their **graph of conquests** is considered. In this graph, the vertices are the conquered cities,
 and the edges are the conquered paths that connect conquered cities. For each connected component of the graph with i vertices,
-*additional factor connected component () × 2 i* points are obtained.
+*additional factor connected component() × 2 i* points are obtained.
+
+<p align="center">
+  <a>
+    <img alt="Screenshot of the game" title="Screenshot of the game"
+         src="https://github.com/davidmingueza98/ork-island/blob/master/doc/images/screenshot1.png?raw=true">
+  </a>
+</p>
 
 Let us illustrate with an example how the score is computed. Figure 1 shows
 a screenshot of the game. Blue represents WATER, light green represents GRASS,
-deep green represents FOREST, light yellow represents SAND, deep grey repre-
-sents CITY and light grey represents PATH. The orks of a player are identified
+deep green represents FOREST, light yellow represents SAND, deep grey represents
+CITY and light grey represents PATH. The orks of a player are identified
 with small squares of the same color. Conquered cities and paths are filled with
 a crossed grid of the color of the player that conquered them.
 
@@ -90,18 +97,18 @@ Let us now count the score of the red player accumulated in the current round:
 
 - **Cities**: The red player has conquered cities (from top to bottom) with
 dimensions *5 × 2, 6 × 5, 2 × 4, 4 × 2, 3 × 2, 2 × 5, 5 × 5* and *5 × 2*. In
-total: 107 points if bonus per city cell() = 1.
+total: 107 points if *bonus per city cell()* = 1.
 
 - **Paths**: The red player has conquered paths (from top to bottom) with
-sizes 11, 3, 38 and 18. In total, *( 11 + 3 + 38 + 18 ) × bonus per path cell ()* = 2.
+sizes 11, 3, 38 and 18. In total, *( 11 + 3 + 38 + 18 ) × bonus per path cell()* = 2.
 
-370 points if bonus per path cell () = 1.
+370 points if *bonus per path cell()* = 1.
 
 Figure 1: Screenshot of the game.
 
 - **Graph of conquests**: The graph of the red player has five connected
 components: one with 3 cities, another one with 2 cities, and three components
-consisting of an isolated vertex. In total, *( 2 3 + 2 2 + 3 × 2 1 ) × factor connected component ()* = 36 points
+consisting of an isolated vertex. In total, *( 2 3 + 2 2 + 3 × 2 1 ) × factor connected component()* = 36 points
 if bonus per city cell () = 2.
 
 Thus, in total the red player has accumulated **213 points** in this round.
@@ -136,14 +143,14 @@ This source code includes a C++ program that runs the matches and also an HTML v
 watch them in a nice animated format. Also, a *Null* player and a *Demo* player are
 provided to make it easier to start coding your own player.
 
-My custom player is in [AIWillyrex.cc](./AIWillyrex.cc)
+My custom player is written in [AIWillyrex.cc](./AIWillyrex.cc)
 
 ## Running your first match
 Here we will explain how to run the game under Linux, but a similar procedure
 should work in alternative OS. The only requirements are `g++`, `make` and a browser like Mozilla
 Firefox or Google Chrome. To run your first match, follow the next steps:
 
-1. Open a console and cd to the directory where you extracted the source code.
+1. Open a console and go to the directory where you extracted the source code.
 2. Run `make all` to build the game and all the players. Note that Makefile identifies any file matching `AI*.cc` as a player.
 3. The executable `Game` allows you to run a match using a command like:
 
@@ -184,10 +191,10 @@ line to
 `#define PLAYER NAME Sauron`
 
 It will be used to define a new class `PLAYER NAME`, which will be referred to below as your player class.
-Now you can start implementing the method `play ()`. This method will be called
+Now you can start implementing the method `play()`. This method will be called
 every round and is where your player should decide what to do, and do it.
 Of course, you can define auxiliary methods and variables inside your player
-class, but the entry point of your code will always be this `play ()` method.
+class, but the entry point of your code will always be this `play()` method.
 
 From your player class you can also call functions to access the board state, as
 defined in the `State` class in `State.hh`, and to command your units, as defined
@@ -201,7 +208,7 @@ Finally, it may be worth as well to have a look at the files `Structs.hh` for
 useful data structures, `Random.hh` for random generation utilities, `Settings.hh`
 for looking up the game settings and `Player.hh` for the `me()` method.
 
-Note that you should not modify the `factory ()` method from your player class,
+Note that you should not modify the `factory()` method from your player class,
 nor the last line that adds your player to the list of registered players.
 
 ### Playing against the *Dummy* player
