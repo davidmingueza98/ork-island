@@ -1,5 +1,13 @@
 # ork-island
 
+## Introduction
+Ork Island was a project from EDA course (Estructura de Dades i Algorisme) of my college back in 2017.
+This game provides a platform to learn about data structures and design an algorithm with the most
+optimal strategy on a multiplayer competitive game.
+
+My own player is saved in [AIWillyrex.cc](./AIWillyrex.cc). Feel free to create your own player
+and try to beat me!
+
 ## Game rules
 The power of Sauron, the Lord of the Rings, is spreading throughout Middle
 Earth. People flee in terror from his bloodthirsty ork soldiers. As a result, once
@@ -144,8 +152,6 @@ This source code includes a C++ program that runs the matches and also an HTML v
 watch them in a nice animated format. Also, a *Null* player and a *Demo* player are
 provided to make it easier to start coding your own player.
 
-My custom player is written in [AIWillyrex.cc](./AIWillyrex.cc)
-
 ## Running your first match
 Here we will explain how to run the game under Linux, but a similar procedure
 should work in alternative OS. The only requirements are `g++`, `make` and a browser like Mozilla
@@ -219,3 +225,12 @@ but you will be able to add it as a player and compete against it locally.
 
 To add the *Dummy* player to the list of registered players, you will have to
 edit the Makefile file and set the variable `DUMMY OBJ` to the appropriate value.
+
+## Conclusions
+
+My player follows a basic rules to achieve a good score in the game:
+
+1. Calculates and saves the shortest path to a city or path for each ork
+2. Moves the orks following the calculations
+3. Greedy strategy: once a city is conquered try to conquer other adjacent cities and paths
+4. Attack enemies in surrounding cells if they have less life
