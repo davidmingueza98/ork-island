@@ -82,7 +82,8 @@ and the edges are the conquered paths that connect conquered cities. For each co
 <p align="center">
   <a>
     <img alt="Screenshot of the game" title="Screenshot of the game"
-         src="https://github.com/davidmingueza98/ork-island/blob/master/doc/images/screenshot1.png?raw=true">
+         src="https://github.com/davidmingueza98/ork-island/blob/master/doc/images/screenshot1.png?raw=true"
+         width="562" height="594">
   </a>
 </p>
 

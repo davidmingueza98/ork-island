@@ -26,72 +26,82 @@ struct PLAYER_NAME : public Player {
   /**
    * Types and attributes for your player can be defined here.
    */
+  typedef vector<int> Vector;
+  typedef vector<Vector> Matrix;
+  typedef pair<int, Pos> ArcP;
 
-    typedef vector<int> Vector;
-    typedef vector<Vector> Matrix;
-    typedef pair<int, Pos> ArcP;
+  //Paths are saved inside a map
+  map <int, stack<Pos> > Caminos;
 
-    map <int, stack<Pos> > Caminos;
-    vector<Pos> g; //Grafo
+  //Vector g represents a graph
+  vector<Pos> g;
 
+  map<int,bool> city_given;
+  map<int,bool> path_given;
 
-    map<int,bool> city_given;
-    map<int,bool> path_given;
+  //Checks if an orc has arrived at the final position
+  map <int,Pos> city_reached;
 
-        map <int,Pos> city_reached; /**para saber si ha llegado a la posición final o no*/
-    //Variable global
-    int infinity = numeric_limits<int>::max();
-    double infinity_double = numeric_limits<double>::max();
+  int infinity = numeric_limits<int>::max();
+  double infinity_double = numeric_limits<double>::max();
 
+  /**
+   * Traverses a path in a map from a positon y to a position x and saves
+   * the steps in a stack.
+   */
+  stack<Pos> generate_path(map<Pos,Pos> &p, Pos x, Pos y) {
+      stack<Pos> pila;
+      while (y != x) { //not path end
+          pila.push(y);
+          y = p[y]; //explore map containing path order
+      }
+      return pila;
+  }
 
-stack<Pos> generate_path(map<Pos,Pos> &p, Pos x, Pos y) {
-    stack<Pos> pila;
-    while (y != x) { //mientras no hemos llegado al final
-        pila.push(y);
-        y = p[y]; //exploramos el mapa que contiene toda la jerarquía del camino
+  /** Graph ahora es un mapa de Pos a una struct de sus casillas adjacentes que son cuatro exactamente*/
+
+  void path_finding(const vector<Pos> &G, Pos initial, Pos end, map<Pos,int> &d, map<Pos,Pos> &p) {
+
+    map<Pos,bool> S; //found map
+
+    /**
+     * Initialize map D, contaning the distance related at each position, to infinity
+     * Initialize map P, contaning the minimum path implicitily in the map, to -1
+     * Initialize map S, contaning whether the position is visited or not, to false
+     */
+    for (int i = 0; i < int(G.size()); ++i){
+      Pos iteradora = G[i];
+      d[iteradora] = infinity;
+      p[iteradora].i = -1;
+      p[iteradora].j = -1;
+      S[iteradora] = false;
     }
-    return pila;
-}
 
-/** Graph ahora es un mapa de Pos a una struct de sus casillas adjacentes que son cuatro exactamente*/
-
-void path_finding(const vector<Pos> &G, Pos initial, Pos fin, map<Pos,int> &d, map<Pos,Pos> &p) {
-
-    map<Pos,bool> S; //mapa de encontrados
-
-    /**Inicializamos el mapa D, la distancia asociada a cada posición Pos(infinito)
-        Inicializamos el mapa p, que contiene el camino mínimo de manera implicita dentro del mapa
-       Inicializamos también el mapa S, si hemos visitado o no el nodo(anterior vector de encontrados a false)*/
-    for (int i = 0; i < int(G.size());++i){
-            Pos iteradora = G[i];
-            d[iteradora] = infinity;
-            p[iteradora].i = -1;
-            p[iteradora].j = -1;
-            S[iteradora] = false;
-    }
-    d[initial] = 0; //Posición inicial con distancia 0 ...
-
-    /**typedef pair<int, Pos> ArcP;*/
+    //Defines a priority queue with ArcP, pairs of int and Pos
     priority_queue<ArcP, vector<ArcP>, greater<ArcP> > Q;
+
+    //Initial position has distance 0 and identifier 0
+    d[initial] = 0;
     Q.push(ArcP(0, initial));
 
     while (not Q.empty()) {
         Pos u = Q.top().second;
+        if (u == end) return;
         Q.pop();
 
+        //position has not been visited
         if (not S[u]) {
-            S[u] = true;//si no visitado entonces visitado
-            if (u == fin) return;
+            S[u] = true;
             for (int i = 0; i < 4; ++i) {
-                Pos v; //posición candidata
-                if(i==0) v=Pos(u.i,u.j-1);//left
-                else if(i==1) v=Pos(u.i,u.j+1); //right
-                else if(i==2) v=Pos(u.i-1,u.j); //up
-                else if(i==3) v=Pos(u.i+1,u.j); //down
+                Pos v; //candidate position
+                if (i == 0) v = Pos(u.i, u.j - 1); //left
+                else if(i == 1) v=Pos(u.i, u.j + 1); //right
+                else if(i == 2) v=Pos(u.i - 1, u.j); //up
+                else if(i == 3) v=Pos(u.i + 1, u.j); //down
 
-                Cell aux = cell(v.i,v.j);
-                if(aux.type!=WATER){
-                    int c = cost(aux.type); //coste del candidato
+                Cell aux = cell(v.i, v.j);
+                if(aux.type != WATER){
+                    int c = cost(aux.type); //candidate cost
                     if (d[v] > d[u] + c) { /**si la distancia es mas grande la actualizamos, buscamos un mínimo*/
                         d[v] = d[u] + c;
                         p[v] = u;  //guardamos en el map
