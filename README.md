@@ -8,6 +8,8 @@ optimal strategy on a multiplayer competitive game.
 My own player is saved in [AIWillyrex.cc](./AIWillyrex.cc). Feel free to create your own player
 and try to beat me!
 
+The original creator of this game is Enric Rodríguez. Check more details in [author.txt](./author.txt)
+
 ## Game rules
 The power of Sauron, the Lord of the Rings, is spreading throughout Middle
 Earth. People flee in terror from his bloodthirsty ork soldiers. As a result, once
@@ -249,5 +251,6 @@ player can be achieved applying **reinforced learning**. A good designed trained
 to achieve a strategy never thought before that beats all the points listed. Certainly, a nice challenge
 could be to adapt the machine learning model to be used in the Player class because is written mainly in C++.
 
-Related link:
-https://www.deepmind.com/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules
+Sources:
+- [AlphaGo](https://www.deepmind.com/research/highlighted-research/alphago)
+- [Muzero](https://www.deepmind.com/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules)
