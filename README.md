@@ -1,7 +1,7 @@
 # ork-island
 
 ## Introduction
-Ork Island was a project from EDA course (Estructura de Dades i Algorisme) of my college back in 2017.
+Ork Island was a project from EDA course (Estructura de Dades i Algorismes) of my college back in 2017.
 This game provides a platform to learn about data structures and design an algorithm with the most
 optimal strategy on a multiplayer competitive game.
 
@@ -49,15 +49,14 @@ of dirt on their skin). On the other hand, they can move
 to all other cells. However, when an ork moves, its health (an integer value)
 decreases. Depending on the type of cell where an ork goes, this decrement
 in health may be different. When an ork reaches a negative health, it dies and
-regenerates under the control of the same player. Initially all orks have the
-same health, and when they regenerate they get this same amount of health
-again.
+regenerates under the control of the same player. Initially, all orks have the
+same health and when they regenerate they get this same amount of health again.
 
 Each cell of the board can be occupied by a single ork at most. In the particular
 situation that an ork A attempts to move to a cell where there is already another ork B
 (who has moved there previously in the same round, or was there earlier), the following cases are considered:
 - If A and B belong to the same player, the instruction is ignored.
-- Otherwise there is a fight, after which one of the two orks will die. If the
+- Otherwise, there is a fight after which one of the two orks will die. If the
 health of A (after the decrement due to the movement) is strictly greater
 than the health of B, then B dies. Symmetrically, if it is strictly less than
 the health of B, then A dies. If there is a tie, then the ork that dies is decided
@@ -69,7 +68,7 @@ shore of the island, that is, on a cell adjacent to the sea which is not WATER, 
 or PATH. Similarly, initially all players have their orks randomly distributed on
 the shore.
 
-At the beginning of a match all cities and paths are empty, i.e., do not have
+At the beginning of a match, all cities and paths are empty, i.e., do not have
 any orks on their cells. However, once the game starts, orks can move to them.
 
 Points are then computed as follows. At the end of a round, for each city the
@@ -81,7 +80,7 @@ the previous round.
 In any case, for each city currently conquered by a player (i.e., currently under their control),
 this player accumulates a number of points which is bonus per city *cell() × the size of the city*
 (that is, the number of its cells); for paths the same applies as for cities, but the number of accumulated
-points is bonus per path *cell() × the size of the path*.
+points are bonus per path *cell() × the size of the path*.
 
 Finally, for each player, their **graph of conquests** is considered. In this graph, the vertices are the conquered cities,
 and the edges are the conquered paths that connect conquered cities. For each connected component of the graph with i vertices,
@@ -230,7 +229,25 @@ edit the Makefile file and set the variable `DUMMY OBJ` to the appropriate value
 
 My player follows a basic rules to achieve a good score in the game:
 
-1. Calculates and saves the shortest path to a city or path for each ork
-2. Moves the orks following the calculations
-3. Greedy strategy: once a city is conquered try to conquer other adjacent cities and paths
-4. Attack enemies in surrounding cells if they have less life
+1. Calculates and saves the shortest path to a city or path for each ork.
+2. Moves the orks following the calculations.
+3. Greedy strategy: once a city is conquered try to conquer other adjacent cities and paths.
+4. Attack enemies in surrounding cells if they have less life.
+
+My player got high scores in the competition against other classmates. However it's far away from
+the best possible strategy. The most important points I missed are:
+
+1. Avoiding enemies with more life at any moment
+2. Calculate density of enemies in the board
+3. Detect which cities and paths are not conquered
+4. Kill enemies in the route to paths or cities
+5. Protect orks with less life with powerful units
+
+On the other hand, strategies are very useful to work with different algorithms and learn how to apply them
+while enjoying the competition. Nowadays, the most powerful solution to get the best automatized
+player can be achieved applying **reinforced learning**. A good designed trained phase could lead the agent
+to achieve a strategy never thought before that beats all the points listed. Certainly, a nice challenge
+could be to adapt the machine learning model to be used in the Player class because is written mainly in C++.
+
+Related link:
+https://www.deepmind.com/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules
