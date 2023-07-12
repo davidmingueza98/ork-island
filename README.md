@@ -1,4 +1,15 @@
 # ork-island
+Ork Island is a multiplayer competitive game based in the world of The Lord Of The Rings.
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Game rules](#game-rules)
+  - [Parameters](#parameters)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+  - [Adding your player](#adding-your-player)
+- [Conclusions](#conclusions)
+- [Credits](#credits)
 
 ## Introduction
 Ork Island was a project from EDA course (Estructura de Dades i Algorismes) of my college back in 2017.
@@ -7,8 +18,6 @@ optimal strategy on a multiplayer competitive game.
 
 My own player is saved in [AIWillyrex.cc](./src/AIWillyrex.cc). Feel free to create your own player
 and try to beat me!
-
-The original creator of this game is Enric Rodríguez. Check more details in [author.txt](./author.txt).
 
 ## Game rules
 The power of Sauron, the Lord of the Rings, is spreading throughout Middle
@@ -130,7 +139,7 @@ In general, the execution of a round follows the next steps:
 4. For each player, the points obtained at the end of the round are computed
 and added to the score.
 
-### Game parameters
+### Parameters
 A game is defined by a board and the following set of parameters, whose default values are shown in parentheses:
 
 - *nb players()*: number of players (4)
@@ -148,12 +157,12 @@ A game is defined by a board and the following set of parameters, whose default 
 - *bonus per path cell()*: bonus in points for each cell in a conquered path (1)
 - *factor connected component()*: factor multiplying the size of connected components (2)
 
-## Programming
+## Getting Started
 This source code includes a C++ program that runs the matches and also an HTML viewer to
 watch them in a nice animated format. Also, a *Null* player and a *Demo* player are
 provided to make it easier to start coding your own player.
 
-## Running your first match
+## Usage
 Here we will explain how to run the game under Linux, but a similar procedure
 should work in alternative OS. The only requirements are `g++`, `make` and a browser like Mozilla
 Firefox or Google Chrome. To run your first match, follow the next steps:
@@ -254,3 +263,6 @@ could be to adapt the machine learning model to be used in the Player class beca
 Sources:
 - [AlphaGo](https://www.deepmind.com/research/highlighted-research/alphago)
 - [MuZero](https://www.deepmind.com/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules)
+
+## Credits
+The original creator of this game is Enric Rodríguez. Check more details in [author.txt](./author.txt).
