@@ -238,7 +238,7 @@ edit the Makefile file and set the variable `DUMMY OBJ` to the appropriate value
 
 ## Conclusions
 
-My player follows a basic rules to achieve a good score in the game:
+My player follows basic rules to achieve a good score in the game:
 
 1. Calculates and saves the shortest path to a city or path for each ork.
 2. Moves the orks following the calculations.
