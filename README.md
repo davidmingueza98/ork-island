@@ -1,6 +1,14 @@
 # ork-island
 Ork Island is a multiplayer competitive game based in the world of The Lord Of The Rings.
 
+<p align="center">
+  <a>
+    <img alt="Screenshot of the game" title="Screenshot of the game"
+         src="https://github.com/davidmingueza98/ork-island/blob/master/doc/images/screenshot1.png?raw=true"
+         width="562" height="594">
+  </a>
+</p>
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Game rules](#game-rules)
@@ -96,14 +104,6 @@ points are bonus per path *cell() × the size of the path*.
 Finally, for each player, their **graph of conquests** is considered. In this graph, the vertices are the conquered cities,
 and the edges are the conquered paths that connect conquered cities. For each connected component of the graph with i vertices,
 *additional factor connected component() × 2 i* points are obtained.
-
-<p align="center">
-  <a>
-    <img alt="Screenshot of the game" title="Screenshot of the game"
-         src="https://github.com/davidmingueza98/ork-island/blob/master/doc/images/screenshot1.png?raw=true"
-         width="562" height="594">
-  </a>
-</p>
 
 Let us illustrate with an example how the score is computed. Figure 1 shows
 a screenshot of the game. Blue represents WATER, light green represents GRASS,
